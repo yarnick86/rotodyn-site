@@ -63,3 +63,12 @@
     b.addEventListener('click', show);
   });
 })();
+
+/* При системной настройке «уменьшить движение» останавливаем и SVG-анимацию */
+(function () {
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('svg.tech-anim, svg.bg-anim').forEach(function (s) {
+      if (s.pauseAnimations) s.pauseAnimations();
+    });
+  }
+})();

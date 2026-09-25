@@ -423,8 +423,21 @@ html[lang="zh-CN"] .case .facts dt{letter-spacing:.04em}
 @keyframes rot{to{transform:rotate(360deg)}}
 @keyframes flow{to{stroke-dashoffset:-160}}
 @keyframes pulse{0%{transform:scale(.36);opacity:.6}100%{transform:scale(1.02);opacity:0}}
+/* главная: установка в разрезе */
+.anim-label.sm{font-size:13px}
+.tech-anim .flame,.tech-anim .flame-core,.tech-anim .wave{transform-box:view-box}
+.anim-flow.air{stroke-dasharray:3 13;animation-duration:1.5s}
+.anim-flow.fuel{stroke-dasharray:1 7;animation-duration:1.3s}
+.anim-flow.hot{stroke-dasharray:6 10;animation-duration:.8s}
+.flame{animation:flick 1.1s ease-in-out infinite alternate}
+.flame-core{animation:flick2 .37s ease-in-out infinite alternate}
+@keyframes flick{0%{transform:scale(.9,.94);opacity:.82}100%{transform:scale(1.06,1.05);opacity:1}}
+@keyframes flick2{0%{transform:scaleX(.88)}100%{transform:scaleX(1.12)}}
+.wave{animation:wave 1.5s linear infinite}
+@keyframes wave{to{transform:translateX(-88px)}}
+.anim-rot.orbit{animation-duration:9s}
 @media (prefers-reduced-motion:reduce){
-  .anim-rot,.anim-sweep,.anim-flow,.anim-pulse{animation:none}
+  .anim-rot,.anim-sweep,.anim-flow,.anim-pulse,.flame,.flame-core,.wave{animation:none}
   .anim-pulse{opacity:0}
 }
 /* картинка, встроенная в шапку без рамки */
