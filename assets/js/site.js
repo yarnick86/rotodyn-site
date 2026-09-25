@@ -20,3 +20,46 @@
     });
   }
 })();
+
+/* Язык, выбранный вручную, запоминается и отключает автовыбор */
+(function () {
+  document.querySelectorAll('.lang a[data-lang]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      try { localStorage.setItem('rotodyn-lang', a.getAttribute('data-lang')); } catch (e) {}
+    });
+  });
+})();
+
+/* Плашка cookie: выбор хранится 12 месяцев; необязательные инструменты запускаются только после согласия */
+(function () {
+  var KEY = 'rotodyn-consent', VER = 1, TTL = 365 * 24 * 3600 * 1000;
+  var box = document.getElementById('cookie');
+  function read() {
+    try {
+      var c = JSON.parse(localStorage.getItem(KEY) || 'null');
+      if (c && c.v === VER && Date.now() - c.ts < TTL) return c;
+    } catch (e) {}
+    return null;
+  }
+  function optional() {
+    /* Здесь подключаются аналитические сервисы, если они появятся. Сейчас их нет. */
+  }
+  function show() { if (box) { box.hidden = false; requestAnimationFrame(function () { box.classList.add('on'); }); } }
+  function hide() { if (box) { box.classList.remove('on'); box.hidden = true; } }
+  function save(all) {
+    try { localStorage.setItem(KEY, JSON.stringify({ v: VER, ts: Date.now(), analytics: !!all })); } catch (e) {}
+    hide();
+    if (all) optional();
+  }
+  var c = read();
+  if (!c) show(); else if (c.analytics) optional();
+  if (box) {
+    box.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-consent]');
+      if (b) save(b.getAttribute('data-consent') === 'all');
+    });
+  }
+  document.querySelectorAll('[data-cookie-settings]').forEach(function (b) {
+    b.addEventListener('click', show);
+  });
+})();
